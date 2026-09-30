@@ -45,7 +45,7 @@ pwd
 
 ### 1.2. Размещение исходных файлов
 
-Скопируйте в папку `~/shoe_shop/` пять Excel-файлов:
+Скопируйте в папку `~/shoe_shop/` пять Excel-файлов из https://github.com/softboxdev/programming_course/tree/main/INTERNET_SHOP_MATERIALS:
 
 - `Products_import.xlsx`
 - `Stock_Items_import.xlsx`
