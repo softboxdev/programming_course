@@ -11,6 +11,7 @@
 **Техническое задание к демо-экзамену:** со стр.30 https://bom.firpo.ru/file/public/177759/%D0%9A%D0%98%D0%9C%2009.02.07-2-2027%20%D0%A2%D0%BE%D0%BC%201.pdf
 
 **Документация по работе с git** - https://github.com/softboxdev/linux_deep_level/blob/main/practice/github.md 
+
 ---
 
 ## Цель работы
