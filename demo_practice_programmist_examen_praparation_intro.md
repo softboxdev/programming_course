@@ -1,10 +1,16 @@
 # Практическая работа: Разработка системы оформления заказа обуви (подготовка к демо-экзамену)
 
 **Технологии:** Python 3.8 (встроенные средства) + JavaScript (фронтенд)
+
 **Предметная область:** Компания по продаже обуви
+
 **Файлы-источники:** Products_import.xlsx, Stock_Items_import.xlsx, Sizes_import.xlsx, Orders_import.xlsx, Users_import.xlsx
+
 **Демо-экзамен:** https://bom.firpo.ru/Public/6397
-**Техническое задание к демо-экзамену: ** со стр.30 https://bom.firpo.ru/file/public/177759/%D0%9A%D0%98%D0%9C%2009.02.07-2-2027%20%D0%A2%D0%BE%D0%BC%201.pdf  
+
+**Техническое задание к демо-экзамену: ** со стр.30 https://bom.firpo.ru/file/public/177759/%D0%9A%D0%98%D0%9C%2009.02.07-2-2027%20%D0%A2%D0%BE%D0%BC%201.pdf
+
+**Документация по работе с git** - https://github.com/softboxdev/linux_deep_level/blob/main/practice/github.md 
 ---
 
 ## Цель работы
