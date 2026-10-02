@@ -252,11 +252,11 @@ python-dotenv==1.0.0
 
 ---
 
-## Шаг 5. Обновление database.py
+## Шаг 5. Новый класс database.py
 
 ### 5.1. Новый класс Database
 
-Замените содержимое `backend/database.py`:
+Cодержимое `backend/database.py`:
 
 ```python
 import psycopg2
@@ -321,10 +321,6 @@ class Database:
                 return [dict(row) for row in cursor.fetchall()]
 ```
 
-**Ключевые изменения:**
-- `sqlite3.connect()` → `psycopg2.connect()` 
-- `sqlite3.Row` → `psycopg2.extras.RealDictCursor` 
-- `PRAGMA foreign_keys` — не нужен (PostgreSQL поддерживает FK нативно) 
 
 ### 5.2. Обновление .env
 
@@ -343,64 +339,7 @@ pip install python-dotenv
 
 ---
 
-## Шаг 6. Замена плейсхолдеров `?` на `%s`
-
-### 6.1. Проблема
-
-SQLite использует `?` для параметров, PostgreSQL (psycopg2) — `%s` .
-
-### 6.2. Замена во всех моделях
-
-**Пример для `user.py`:**
-
-**Было (SQLite):**
-```python
-row = self.db.fetch_one(
-    "SELECT id FROM user WHERE login = ?", (self.login,)
-)
-```
-
-**Стало (PostgreSQL):**
-```python
-row = self.db.fetch_one(
-    'SELECT id FROM "user" WHERE login = %s', (self.login,)
-)
-```
-
-**Пример для `request.py`:**
-
-**Было:**
-```python
-db.fetch_all(
-    """SELECT r.id, e.name AS event_name, ...
-       WHERE r.user_id = ?""",
-    (user_id,)
-)
-```
-
-**Стало:**
-```python
-db.fetch_all(
-    """SELECT r.id, e.name AS event_name, ...
-       WHERE r.user_id = %s""",
-    (user_id,)
-)
-```
-
-### 6.3. Полный список замен
-
-| Файл | Метод | Что заменить |
-|------|-------|--------------|
-| `user.py` | `login_exists()` | `?` → `%s`, `user` → `"user"` |
-| `user.py` | `email_exists()` | `?` → `%s`, `user` → `"user"` |
-| `user.py` | `authenticate()` | `?` → `%s`, `user` → `"user"` |
-| `user.py` | `save()` | `?` → `%s`, `user` → `"user"`, добавить `RETURNING id` |
-| `request.py` | `get_by_user()` | `?` → `%s` |
-| `request.py` | `update_status()` | `?` → `%s` |
-| `event.py` | `save()` | `?` → `%s`, добавить `RETURNING id` |
-| `review.py` | `save()` | `?` → `%s`, добавить `RETURNING id` |
-
-### 6.4. Пример обновлённого метода save() для User
+### 6.4. Пример метода save() для User
 
 ```python
 def save(self) -> tuple:
@@ -428,37 +367,9 @@ def save(self) -> tuple:
 
 ---
 
-## Шаг 7. Обновление обработки ошибок
+## Проверка и тестирование
 
-### 7.1. Замена исключений
-
-**Было (SQLite):**
-```python
-import sqlite3
-
-try:
-    ...
-except sqlite3.IntegrityError:
-    ...
-```
-
-**Стало (PostgreSQL):**
-```python
-from psycopg2 import errors
-
-try:
-    ...
-except errors.UniqueViolation:
-    ...
-except errors.IntegrityError:
-    ...
-```
-
----
-
-## Шаг 8. Проверка и тестирование
-
-### 8.1. Запуск приложения
+### Запуск приложения
 
 ```bash
 source venv/bin/activate
@@ -471,7 +382,7 @@ python -m backend.app
  * Running on http://127.0.0.1:5000
 ```
 
-### 8.2. Проверка через psql
+### Проверка через psql
 
 ```bash
 psql -U conference_user -d conference_db -h 127.0.0.1 -c 'SELECT * FROM "user";'
