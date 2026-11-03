@@ -1,0 +1,54 @@
+Часть А.
+
+1 - а - Б
+2 - в
+3 - б
+4 - б
+5 - б
+6 - б
+7 - в
+8 - а
+9 - б
+10 - в
+
+Часть В
+
+11)
+
+Ошибка 1 - sqlite3.connect(app.db) - нет кавычек sqlite3.connect('app.db')
+Ошибка 2 - exucute(..., title) нет скобок - exucute(..., (title))
+Ошибка 3 - Нет conn.commit  и conn.close - фиксации данных и закрытия соеденинения после return True
+
+12)
+import sqlite3
+
+def delete_task_by_id(task_id):
+    conn = sqlite3.connect('app.db')
+    cur = conn.cursor()
+    try:
+        cur.execute("DELETE FROM tasks WHERE id = ?", (task_id,))
+        conn.commit()
+        return cur.rowcount
+    except:
+        conn.rollback()
+        return 0
+    finally:
+        conn.close()
+
+13)
+
+Браузер отправляет POST-запрос с данными
+
+Flask маршрут index() принимает данные
+
+Открывется соеденинение с бд (connect)
+
+Выполняется INSERT(execute) передаются данные
+
+Фиксируются измененения commit или rollback при ошибке - отмена транзакции
+
+Соеденинение закрывается (conn.close)
+
+Flask делает redirect на главную и (GET) - передает данные
+
+Пользователь видит обновленный список задач.
